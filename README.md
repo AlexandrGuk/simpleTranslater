@@ -1,2 +1,2 @@
 # simpleTranslater
-Simple translate (using Google Translate Api)
+Simple translate (using Bing Translate Api)
