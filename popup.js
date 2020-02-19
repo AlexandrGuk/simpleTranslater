@@ -1,5 +1,4 @@
 function attachButtonEvent() {
-    console.log("attach");
     const button = document.getElementById("translate");
     button.addEventListener("click", getTranslate);
 }
