@@ -12,12 +12,11 @@ function getSelectedText(event) {
         return;
     }
     const selection = window.getSelection();
-    if ( selection && selection.toString() ) {
+    if ( selection && selection.toString() && selection.toString().match(/[A-z]/) ) {
         BUTTON_DIV.style.left = event.pageX + "px";
         BUTTON_DIV.style.top = event.pageY + "px";
         BUTTON_DIV.style.display = "block";
         BUTTON_DIV.dataset.text = selection.toString();
-
     }
 }
 

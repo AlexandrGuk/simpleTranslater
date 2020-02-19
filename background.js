@@ -15,4 +15,3 @@ getBrowser().runtime.onMessage.addListener(async (request, sender, sendResponse)
         getBrowser().tabs.sendMessage(sender.tab.id, translatedResponse, () => null);
     }
 });
-
