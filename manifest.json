@@ -18,6 +18,9 @@
   "background": {
     "scripts": ["background.js"]
   },
+  "web_accessible_resources": [
+    "icons/*.png"
+  ],
   "minimum_chrome_version": "55",
   "content_scripts": [
     {

@@ -1,0 +1,30 @@
+textarea {
+    width: 240px;
+    margin: 5px;
+}
+
+button {
+    margin: 5px;
+}
+
+.logo {
+    background-image: url("icons/icon48.png");
+    background-size: cover;
+    width: 32px;
+    height: 32px;
+}
+
+.header {
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.caption {
+    flex-basis: 80%;
+    text-align: center;
+    font-size: initial;
+    font-weight: bold;
+}

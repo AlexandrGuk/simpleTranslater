@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="popup.css">
     <meta charset="UTF-8">
     <title>Simple Translator</title>
 </head>
-<body>
-Hello translator!
+<body style="width:250px;height:250px">
+<div class="header"><div class="logo"></div><div class="caption">Simple Translator</div></div>
+<textarea id="from" name="Text1" cols="40" rows="6"></textarea>
+<button id="translate">Перевести</button>
+<textarea readonly id="result" name="Text1" cols="40" rows="6"></textarea>
+<script type="text/javascript" src="popup.js"></script>
 </body>
 </html>
