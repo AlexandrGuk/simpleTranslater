@@ -1,5 +1,5 @@
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    const translatedResponse = await fetch("http://localhost:3000", {
+    const translatedResponse = await fetch("https://boiling-dawn-39443.herokuapp.com", {
         "body": request.text,
         "method": "POST"
     }).then(resp => resp.ok ? resp.json() : null).catch(null);
