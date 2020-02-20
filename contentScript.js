@@ -17,7 +17,9 @@ function getSelectedText(event) {
         BUTTON_DIV.style.top = event.pageY + "px";
         BUTTON_DIV.style.display = "block";
         BUTTON_DIV.dataset.text = selection.toString();
+        cancelDefaultAction(event);
     }
+     cancelDefaultAction(event);
 }
 
 getBrowser().runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -33,12 +35,13 @@ function createDiv() {
     tooltip.style.display = "none";
     tooltip.style.backgroundColor = "#504416ff";
     tooltip.style.color = "#ffdd55ff";
+    tooltip.style.fontSize = "12px";
     tooltip.style.padding = "5px";
     tooltip.style.border = "solid";
     tooltip.style.borderColor = "black";
     tooltip.style.zIndex = "9999999";
     tooltip.style.width = "max-content";
-    tooltip.style.maxWidth = "250px";
+    tooltip.style.maxWidth = "450px";
 
     TRANSLATE_DIV = div.appendChild(tooltip);
 
@@ -69,7 +72,7 @@ function getTranslate(event) {
 }
 
 function hideTranslate(event) {
-    if ( event.target === BUTTON_DIV || event.target === TRANSLATE_DIV ) {
+    if ( event.target === BUTTON_DIV || event.target === TRANSLATE_DIV || window.getSelection().type === "Range" ) {
         cancelDefaultAction(event);
         return;
     }
