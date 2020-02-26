@@ -7,7 +7,7 @@ function getBrowser() {
 }
 
 getBrowser().runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    const translatedResponse = await fetch("https://boiling-dawn-39443.herokuapp.com", {
+    const translatedResponse = await fetch("http://5.61.33.30:5000", {
         "body": request.text,
         "method": "POST"
     }).then(resp => resp.ok ? resp.json() : null).catch(null);

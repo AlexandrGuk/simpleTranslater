@@ -5,7 +5,7 @@ function attachButtonEvent() {
 
 async function getTranslate() {
     const text = document.querySelector("textarea#from").value;
-    const translatedResponse = await fetch("https://boiling-dawn-39443.herokuapp.com", {
+    const translatedResponse = await fetch("http://5.61.33.30:5000", {
         "body": text,
         "method": "POST"
     }).then(resp => resp.ok ? resp.json() : null).catch(null);
