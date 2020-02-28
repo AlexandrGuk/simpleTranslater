@@ -1,6 +1,6 @@
 {
   "name": "Simple Translator",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "manifest_version": 2,
   "description": "Простой переводчик с русского на английский! Выдели текст -> посмотри перевод!",
   "icons": {
