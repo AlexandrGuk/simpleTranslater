@@ -8,7 +8,6 @@ document.addEventListener("click", hideTranslate);
 
 function getSelectedText(event) {
     if ( event.target === BUTTON_DIV || event.target === TRANSLATE_DIV ) {
-        cancelDefaultAction(event);
         return;
     }
     const selection = window.getSelection();
@@ -17,9 +16,7 @@ function getSelectedText(event) {
         BUTTON_DIV.style.top = event.pageY + "px";
         BUTTON_DIV.style.display = "block";
         BUTTON_DIV.dataset.text = selection.toString();
-        cancelDefaultAction(event);
     }
-     cancelDefaultAction(event);
 }
 
 getBrowser().runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -60,7 +57,6 @@ function createDiv() {
 }
 
 function getTranslate(event) {
-    cancelDefaultAction(event);
     const text = BUTTON_DIV.dataset.text;
     if ( text ) {
         TRANSLATE_DIV.textContent = "Загрузка...";
@@ -73,17 +69,11 @@ function getTranslate(event) {
 
 function hideTranslate(event) {
     if ( event.target === BUTTON_DIV || event.target === TRANSLATE_DIV || window.getSelection().type === "Range" ) {
-        cancelDefaultAction(event);
         return;
     }
     BUTTON_DIV.style.display = "none";
     TRANSLATE_DIV.style.display = "none";
 
-}
-
-function cancelDefaultAction(event) {
-    event.preventDefault();
-    event.stopPropagation();
 }
 
 function getBrowser() {
