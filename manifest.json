@@ -1,6 +1,6 @@
 {
   "name": "Simple Translator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "manifest_version": 2,
   "description": "Простой переводчик с русского на английский! Выдели текст -> посмотри перевод!",
   "icons": {
@@ -12,9 +12,7 @@
     "default_icon": "icons/icon48.png",
     "default_popup": "popup.html"
   },
-  "permissions": [
-    "http://*/*", "https://*/*"
-  ],
+  "permissions": [],
   "background": {
     "scripts": ["background.js"]
   },
