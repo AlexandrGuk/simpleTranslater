@@ -1,30 +1,60 @@
 {
-  "name": "Simple Translator",
-  "version": "1.0.7",
-  "manifest_version": 2,
-  "description": "Простой переводчик с русского на английский! Выдели текст -> посмотри перевод!",
+  "manifest_version": 3,
+  "name": "Simple Translate",
+  "version": "1.0.0",
+  "description": "Translate selected text between Russian and English using local LLM",
+  "default_locale": "en",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "utils/language.js",
+        "content/content.js"
+      ],
+      "css": [
+        "content/content.css"
+      ],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Simple Translate",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options/options.html",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "browser_action": {
-    "default_icon": "icons/icon48.png",
-    "default_popup": "popup.html"
-  },
-  "permissions": [],
-  "background": {
-    "scripts": ["background.js"]
-  },
   "web_accessible_resources": [
-    "icons/*.png"
-  ],
-  "minimum_chrome_version": "55",
-  "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["contentScript.js"],
-      "all_frames": true
+      "resources": [
+        "icons/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }
