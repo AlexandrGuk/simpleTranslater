@@ -1,17 +1,8 @@
-function getBrowser() {
-    if ( typeof browser === "undefined"  ) {
-        return chrome;
-    } else {
-        return browser;
-    }
-}
+import { translateText } from './utils/api.js';
 
-getBrowser().runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    const translatedResponse = await fetch("http://5.61.33.30:5000", {
-        "body": request.text,
-        "method": "POST"
-    }).then(resp => resp.ok ? resp.json() : null).catch(null);
-    if ( translatedResponse ) {
-        getBrowser().tabs.sendMessage(sender.tab.id, translatedResponse, () => null);
-    }
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'TRANSLATE') {
+    translateText(message.text).then(sendResponse);
+    return true; // keep the message channel open for async response
+  }
 });

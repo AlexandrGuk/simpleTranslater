@@ -1,0 +1,14 @@
+body {
+  min-width: 200px;
+  padding: 10px;
+  font-family: sans-serif;
+}
+
+textarea {
+  width: 100%;
+  height: 60px;
+}
+
+#result {
+  margin-top: 10px;
+}
