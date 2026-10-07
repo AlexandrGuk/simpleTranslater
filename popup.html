@@ -7,10 +7,17 @@
 </head>
 <body>
 <div class="header"><div class="logo"></div><div class="caption">Simple Translator</div></div>
+<label class="provider">
+    Сервис
+    <select id="provider">
+        <option value="google">Google</option>
+        <option value="yandex">Яндекс</option>
+        <option value="premium">Премиум</option>
+    </select>
+</label>
 <textarea id="from" name="Text1" cols="40" rows="6"></textarea>
 <button id="translate">Перевести</button>
 <textarea readonly id="result" name="Text1" cols="40" rows="6"></textarea>
-<a id="options" href="#">Настройки сервера</a>
 <script type="text/javascript" src="popup.js"></script>
 </body>
 </html>
