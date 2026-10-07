@@ -1,4 +1,4 @@
-const DEFAULT_SERVER_URL = 'http://5.61.33.30:5000';
+const DEFAULT_SERVER_URL = 'https://translate.alxgk.37-252-1-182.sslip.io';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const { serverUrl, token } = await chrome.storage.local.get({
