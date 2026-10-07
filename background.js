@@ -1,4 +1,4 @@
-const DEFAULT_SERVER_URL = 'https://translate.alxgk.37-252-1-182.sslip.io';
+const DEFAULT_SERVER_URL = 'https://alxgk.site/translate';
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (!message || message.type !== 'translate') {
