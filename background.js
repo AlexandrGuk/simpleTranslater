@@ -1,17 +1,45 @@
-function getBrowser() {
-    if ( typeof browser === "undefined"  ) {
-        return chrome;
-    } else {
-        return browser;
+const DEFAULT_SERVER_URL = 'http://5.61.33.30:5000';
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (!message || message.type !== 'translate') {
+        return;
+    }
+    translate(message.text).then(sendResponse);
+    return true;
+});
+
+async function translate(text) {
+    const value = typeof text === 'string' ? text.trim() : '';
+    if (!value) {
+        return { ok: false, error: 'empty' };
+    }
+
+    const { serverUrl, token } = await chrome.storage.local.get({
+        serverUrl: DEFAULT_SERVER_URL,
+        token: '',
+    });
+    const url = String(serverUrl || '').trim();
+    if (!url) {
+        return { ok: false, error: 'no_server' };
+    }
+
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) {
+        headers['X-Translate-Token'] = token;
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ text: value, target: 'ru' }),
+        });
+        const data = await response.json().catch(() => null);
+        if (!response.ok || !data || typeof data.translation !== 'string') {
+            return { ok: false, error: (data && data.error) || 'translate_failed' };
+        }
+        return { ok: true, translation: data.translation };
+    } catch (error) {
+        return { ok: false, error: 'network' };
     }
 }
-
-getBrowser().runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-    const translatedResponse = await fetch("http://5.61.33.30:5000", {
-        "body": request.text,
-        "method": "POST"
-    }).then(resp => resp.ok ? resp.json() : null).catch(null);
-    if ( translatedResponse ) {
-        getBrowser().tabs.sendMessage(sender.tab.id, translatedResponse, () => null);
-    }
-});

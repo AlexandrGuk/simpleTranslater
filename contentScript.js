@@ -1,85 +1,88 @@
-console.log("hello, im simple transator!");
-let TRANSLATE_DIV;
-const BUTTON_DIV = createDiv();
+const BUTTON = createButton();
 
-document.addEventListener("mouseup", getSelectedText);
-document.addEventListener("dblclick", getSelectedText);
-document.addEventListener("click", hideTranslate);
+document.addEventListener('mouseup', onSelect);
+document.addEventListener('dblclick', onSelect);
+document.addEventListener('click', hideTranslate);
 
-function getSelectedText(event) {
-    if ( event.target === BUTTON_DIV || event.target === TRANSLATE_DIV ) {
+function onSelect(event) {
+    if (event.target === BUTTON || BUTTON.contains(event.target)) {
         return;
     }
     const selection = window.getSelection();
-    if ( selection && selection.toString() && selection.toString().match(/[A-z]/) ) {
-        BUTTON_DIV.style.left = event.pageX + "px";
-        BUTTON_DIV.style.top = event.pageY + "px";
-        BUTTON_DIV.style.display = "block";
-        BUTTON_DIV.dataset.text = selection.toString();
+    const text = selection ? selection.toString().trim() : '';
+    if (!text || !/[A-Za-z]/.test(text)) {
+        return;
     }
+    BUTTON.style.left = `${event.pageX}px`;
+    BUTTON.style.top = `${event.pageY}px`;
+    BUTTON.style.display = 'block';
+    BUTTON.dataset.text = text;
+    hideTooltip();
 }
 
-getBrowser().runtime.onMessage.addListener((request, sender, sendResponse) => {
-    TRANSLATE_DIV.textContent = request;
-    return null;
-});
+function createButton() {
+    const button = document.createElement('div');
+    const tooltip = document.createElement('div');
 
-function createDiv() {
-    const div = document.createElement("div");
-    const tooltip = document.createElement("div");
+    tooltip.style.position = 'absolute';
+    tooltip.style.display = 'none';
+    tooltip.style.backgroundColor = '#504416';
+    tooltip.style.color = '#ffdd55';
+    tooltip.style.fontSize = '12px';
+    tooltip.style.lineHeight = '1.4';
+    tooltip.style.padding = '5px';
+    tooltip.style.border = '1px solid black';
+    tooltip.style.zIndex = '2147483647';
+    tooltip.style.width = 'max-content';
+    tooltip.style.maxWidth = '450px';
+    tooltip.style.whiteSpace = 'pre-wrap';
+    tooltip.style.left = '0';
+    tooltip.style.bottom = '28px';
 
-    tooltip.style.position = "absolute";
-    tooltip.style.display = "none";
-    tooltip.style.backgroundColor = "#504416ff";
-    tooltip.style.color = "#ffdd55ff";
-    tooltip.style.fontSize = "12px";
-    tooltip.style.padding = "5px";
-    tooltip.style.border = "solid";
-    tooltip.style.borderColor = "black";
-    tooltip.style.zIndex = "9999999";
-    tooltip.style.width = "max-content";
-    tooltip.style.maxWidth = "450px";
+    button.appendChild(tooltip);
+    button.id = 'simplyTranslateSpan';
+    button.style.width = '24px';
+    button.style.height = '24px';
+    button.style.position = 'absolute';
+    button.style.display = 'none';
+    button.style.cursor = 'pointer';
+    button.style.backgroundImage = `url(${chrome.runtime.getURL('icons/icon48.png')})`;
+    button.style.backgroundSize = 'cover';
+    button.style.zIndex = '2147483647';
+    button.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        requestTranslation(button.dataset.text || '', tooltip);
+    });
 
-    TRANSLATE_DIV = div.appendChild(tooltip);
-
-    div.id = "simplyTranslateSpan";
-    div.style.width = "24px";
-    div.style.height = "24px";
-    div.style.position = "absolute";
-    div.style.display = "none";
-    div.style.cursor = "pointer";
-    div.style.backgroundImage = `url(${getBrowser().runtime.getURL("icons/icon48.png")})`;
-    div.style.backgroundSize = `cover`;
-    div.style.zIndex = "9999999";
-    div.addEventListener("mousedown", getTranslate);
-
-    return document.body.appendChild(div);
+    (document.body || document.documentElement).appendChild(button);
+    return button;
 }
 
-function getTranslate(event) {
-    const text = BUTTON_DIV.dataset.text;
-    if ( text ) {
-        TRANSLATE_DIV.textContent = "Загрузка...";
-        TRANSLATE_DIV.style.display = "block";
-        TRANSLATE_DIV.style.left = "-100%";
-        TRANSLATE_DIV.style.bottom = "26px";
-        getBrowser().runtime.sendMessage({text: text});
-    }
+function requestTranslation(text, tooltip) {
+    tooltip.textContent = 'Загрузка...';
+    tooltip.style.display = 'block';
+    chrome.runtime.sendMessage({ type: 'translate', text }, (response) => {
+        if (chrome.runtime.lastError || !response || !response.ok) {
+            tooltip.textContent = 'Не удалось перевести';
+            return;
+        }
+        tooltip.textContent = response.translation;
+    });
 }
 
 function hideTranslate(event) {
-    if ( event.target === BUTTON_DIV || event.target === TRANSLATE_DIV || window.getSelection().type === "Range" ) {
+    const selection = window.getSelection();
+    if (event.target === BUTTON || BUTTON.contains(event.target) || (selection && selection.type === 'Range')) {
         return;
     }
-    BUTTON_DIV.style.display = "none";
-    TRANSLATE_DIV.style.display = "none";
-
+    BUTTON.style.display = 'none';
+    hideTooltip();
 }
 
-function getBrowser() {
-    if ( typeof browser === "undefined"  ) {
-        return chrome;
-    } else {
-        return browser;
+function hideTooltip() {
+    const tooltip = BUTTON.firstElementChild;
+    if (tooltip) {
+        tooltip.style.display = 'none';
     }
 }

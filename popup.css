@@ -28,3 +28,13 @@ button {
     font-size: initial;
     font-weight: bold;
 }
+
+body {
+    width: 250px;
+}
+
+#options {
+    display: block;
+    margin: 0 5px 8px;
+    font-size: 12px;
+}

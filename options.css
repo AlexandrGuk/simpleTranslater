@@ -1,0 +1,21 @@
+body {
+    font-family: sans-serif;
+    min-width: 320px;
+    margin: 12px;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+}
+
+input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 4px;
+}
+
+#status {
+    min-height: 1.2em;
+}
